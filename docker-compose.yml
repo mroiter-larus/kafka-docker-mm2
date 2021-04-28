@@ -1,0 +1,180 @@
+version: '3'
+
+services:
+
+  zookeeperA:
+    image: confluentinc/cp-zookeeper
+    hostname: zookeeperA
+    container_name: zookeeperA
+    ports:
+      - 22181:22181
+      - 22888:22888
+      - 23888:23888
+    volumes:
+      - ./zookeeperA/data:/data
+    environment:
+      ZOOKEEPER_SERVER_ID: 1    
+      ZOOKEEPER_CLIENT_PORT: 22181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeperA:22888:23888
+      
+  broker1A:
+    image: confluentinc/cp-kafka
+    hostname: broker1A
+    container_name: broker1A
+    volumes:
+      - ./mm2_config:/tmp/kafka/config
+    ports:
+      - 29092:29092
+    depends_on:
+      - zookeeperA
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeperA:22181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:29092,PLAINTEXT_HOST://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker1A:29092,PLAINTEXT_HOST://localhost:9092
+      ALLOW_PLAINTEXT_LISTENER: 'yes'    
+      KAFKA_AUTO_OFFSET_RESET: "latest"
+      
+  broker2A:
+    image: confluentinc/cp-kafka
+    hostname: broker2A
+    container_name: broker2A
+    volumes:
+      - ./mm2_config:/tmp/kafka/config
+    ports:
+      - 39092:39092
+    depends_on:
+      - zookeeperA
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeperA:22181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:39092,PLAINTEXT_HOST://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker2A:39092,PLAINTEXT_HOST://localhost:9093
+      ALLOW_PLAINTEXT_LISTENER: 'yes'    
+      KAFKA_AUTO_OFFSET_RESET: "latest"
+      
+  broker3A:
+    image: confluentinc/cp-kafka
+    hostname: broker3A
+    container_name: broker3A
+    volumes:
+      - ./mm2_config:/tmp/kafka/config
+    ports:
+      - 49092:49092
+    depends_on:
+      - zookeeperA
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: zookeeperA:22181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:49092,PLAINTEXT_HOST://:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker3A:49092,PLAINTEXT_HOST://localhost:9094
+      ALLOW_PLAINTEXT_LISTENER: 'yes'
+      KAFKA_AUTO_OFFSET_RESET: "latest"
+
+  zookeeperB:
+    image: confluentinc/cp-zookeeper
+    hostname: zookeeperB
+    container_name: zookeeperB
+    ports:
+      - 32181:32181
+      - 32888:32888
+      - 33888:33888
+    volumes:
+      - ./zookeeperB/data:/data
+    environment:
+      ZOOKEEPER_SERVER_ID: 1    
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeperB:32888:33888
+      
+  broker1B:
+    image: confluentinc/cp-kafka
+    hostname: broker1B
+    container_name: broker1B
+    volumes:
+      - ./mm2_config:/tmp/kafka/config
+    ports:
+      - 29093:29093
+
+    depends_on:
+      - zookeeperB
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeperB:32181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:29093,PLAINTEXT_HOST://:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker1B:29093,PLAINTEXT_HOST://localhost:9092
+      ALLOW_PLAINTEXT_LISTENER: 'yes'    
+      KAFKA_AUTO_OFFSET_RESET: "latest"
+      
+  broker2B:
+    image: confluentinc/cp-kafka
+    hostname: broker2B
+    container_name: broker2B
+    volumes:
+      - ./mm2_config:/tmp/kafka/config
+    ports:
+      - 29094:29094
+    depends_on:
+      - zookeeperB
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeperB:32181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:29094,PLAINTEXT_HOST://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker2B:29094,PLAINTEXT_HOST://localhost:9093
+      ALLOW_PLAINTEXT_LISTENER: 'yes'    
+      KAFKA_AUTO_OFFSET_RESET: "latest"
+      
+  broker3B:
+    image: confluentinc/cp-kafka
+    hostname: broker3B
+    container_name: broker3B
+    volumes:
+      - ./mm2_config:/tmp/kafka/config
+    ports:
+      - 29095:29095
+    depends_on:
+      - zookeeperB
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: zookeeperB:32181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:29095,PLAINTEXT_HOST://:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker3B:29095,PLAINTEXT_HOST://localhost:9094
+      ALLOW_PLAINTEXT_LISTENER: 'yes'
+      KAFKA_AUTO_OFFSET_RESET: "latest"
+
+  mirror-maker:
+    image: confluentinc/cp-kafka
+    hostname: mirror-maker
+    container_name: mirror-maker
+    volumes:
+      - ./mm2_config:/tmp/kafka/config
+    ports:
+      - 29096:29096
+    depends_on:
+      - zookeeperA
+      - zookeeperB
+      - broker1A
+      - broker2A
+      - broker3A
+      - broker1B
+      - broker2B
+      - broker3B
+    environment:
+      KAFKA_BROKER_ID: 4
+      KAFKA_ZOOKEEPER_CONNECT: zookeeperA:22181,zookeeperB:32181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:29096,PLAINTEXT_HOST://:9091
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://mirror-maker:29096,PLAINTEXT_HOST://localhost:9091
+      ALLOW_PLAINTEXT_LISTENER: 'yes'
+      KAFKA_AUTO_OFFSET_RESET: "latest"
