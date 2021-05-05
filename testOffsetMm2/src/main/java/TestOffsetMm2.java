@@ -14,7 +14,19 @@ public class TestOffsetMm2 {
     public static void main(String[] args) {
 
         final Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "broker1A:29092");
+
+        /*
+            Use one of the following urls depending on the the broker you want to connect to:
+                * broker1A-> localhost:9092
+                * broker2A-> localhost:9093
+                * broker3A-> localhost:9094
+                * clusterA-> localhost:9092,localhost:9093,localhost:9094
+                * broker1B-> localhost:8092
+                * broker2B-> localhost:8093
+                * broker3B-> localhost:8094
+                * clusterB-> localhost:8092,localhost:8093,localhost:8094
+         */
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "mm2_group");
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, "mm2_consumer_topic1");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
@@ -24,6 +36,9 @@ public class TestOffsetMm2 {
 
         final Consumer<String, String> consumer = new KafkaConsumer<String, String>(props);
 
+        /*
+            Change topic name and partition accordingly to the topic you want to consume from
+         */
         TopicPartition partitionZero = new TopicPartition("topic1", 0);
         List<TopicPartition> partitions = Collections.singletonList(partitionZero);
         consumer.assign(partitions);

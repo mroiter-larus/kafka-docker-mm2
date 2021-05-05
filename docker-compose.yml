@@ -27,6 +27,7 @@ services:
     volumes:
       - ./mm2_config:/tmp/kafka/config
     ports:
+      - 9092:9092
       - 29092:29092
     depends_on:
       - zookeeperA
@@ -46,6 +47,7 @@ services:
     volumes:
       - ./mm2_config:/tmp/kafka/config
     ports:
+      - 9093:9093
       - 39092:39092
     depends_on:
       - zookeeperA
@@ -65,6 +67,7 @@ services:
     volumes:
       - ./mm2_config:/tmp/kafka/config
     ports:
+      - 9094:9094
       - 49092:49092
     depends_on:
       - zookeeperA
@@ -102,16 +105,16 @@ services:
     volumes:
       - ./mm2_config:/tmp/kafka/config
     ports:
+      - 8092:8092
       - 29093:29093
-
     depends_on:
       - zookeeperB
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeperB:32181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker1B:29093,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:8092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker1B:29093,PLAINTEXT_HOST://localhost:8092
       ALLOW_PLAINTEXT_LISTENER: 'yes'    
       KAFKA_AUTO_OFFSET_RESET: "latest"
       
@@ -122,6 +125,7 @@ services:
     volumes:
       - ./mm2_config:/tmp/kafka/config
     ports:
+      - 8093:8093
       - 29094:29094
     depends_on:
       - zookeeperB
@@ -129,8 +133,8 @@ services:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zookeeperB:32181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29094,PLAINTEXT_HOST://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker2B:29094,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29094,PLAINTEXT_HOST://0.0.0.0:8093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker2B:29094,PLAINTEXT_HOST://localhost:8093
       ALLOW_PLAINTEXT_LISTENER: 'yes'    
       KAFKA_AUTO_OFFSET_RESET: "latest"
       
@@ -141,6 +145,7 @@ services:
     volumes:
       - ./mm2_config:/tmp/kafka/config
     ports:
+      - 8094:8094
       - 29095:29095
     depends_on:
       - zookeeperB
@@ -148,8 +153,8 @@ services:
       KAFKA_BROKER_ID: 3
       KAFKA_ZOOKEEPER_CONNECT: zookeeperB:32181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29095,PLAINTEXT_HOST://0.0.0.0:9094
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker3B:29095,PLAINTEXT_HOST://localhost:9094
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29095,PLAINTEXT_HOST://0.0.0.0:8094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker3B:29095,PLAINTEXT_HOST://localhost:8094
       ALLOW_PLAINTEXT_LISTENER: 'yes'
       KAFKA_AUTO_OFFSET_RESET: "latest"
 
@@ -160,6 +165,7 @@ services:
     volumes:
       - ./mm2_config:/tmp/kafka/config
     ports:
+      - 9091:9091
       - 29096:29096
     depends_on:
       - zookeeperA
