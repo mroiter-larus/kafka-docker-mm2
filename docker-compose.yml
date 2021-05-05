@@ -24,8 +24,6 @@ services:
     image: confluentinc/cp-kafka
     hostname: broker1A
     container_name: broker1A
-    volumes:
-      - ./mm2_config:/tmp/kafka/config
     ports:
       - 9092:9092
       - 29092:29092
@@ -44,8 +42,6 @@ services:
     image: confluentinc/cp-kafka
     hostname: broker2A
     container_name: broker2A
-    volumes:
-      - ./mm2_config:/tmp/kafka/config
     ports:
       - 9093:9093
       - 39092:39092
@@ -64,8 +60,6 @@ services:
     image: confluentinc/cp-kafka
     hostname: broker3A
     container_name: broker3A
-    volumes:
-      - ./mm2_config:/tmp/kafka/config
     ports:
       - 9094:9094
       - 49092:49092
@@ -102,8 +96,6 @@ services:
     image: confluentinc/cp-kafka
     hostname: broker1B
     container_name: broker1B
-    volumes:
-      - ./mm2_config:/tmp/kafka/config
     ports:
       - 8092:8092
       - 29093:29093
@@ -122,8 +114,6 @@ services:
     image: confluentinc/cp-kafka
     hostname: broker2B
     container_name: broker2B
-    volumes:
-      - ./mm2_config:/tmp/kafka/config
     ports:
       - 8093:8093
       - 29094:29094
@@ -142,8 +132,6 @@ services:
     image: confluentinc/cp-kafka
     hostname: broker3B
     container_name: broker3B
-    volumes:
-      - ./mm2_config:/tmp/kafka/config
     ports:
       - 8094:8094
       - 29095:29095
